@@ -10,6 +10,7 @@ class Player {
      */
     constructor(Controls, sprite, spawnX, spawnY) {
         let spriteSize = 50;
+        this.spriteImage = sprite;
         this.sprite = createSprite(spawnX, spawnY, spriteSize, spriteSize);
         // Custom draw to resize image.
         this.sprite.draw = function() {image(sprite, this.deltaX, this.deltaY, spriteSize, spriteSize);};

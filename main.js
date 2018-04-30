@@ -5,6 +5,7 @@ let sprites = [],
     buttons = [],
     buttonsMade = false,
     readyButtonMade = false,
+    winnerExists = [false, 0],
     buttonReadySprite = [],
     buttonSprite = [],
     stageSprite,
@@ -31,14 +32,32 @@ function setup() {
 }
 
 function draw() {
+    let liveCount = 0;
     clear();
     background(0);
     if (players == 0){
         selectCharacters(sprites, players);
-    }else{
-        for(let i = 0; i < players.length; i++) {
+    }else if (winnerExists[0]){
+        player = winnerExists[1];
+        fill(255);
+        textSize(64);        
+        textAlign(CENTER);                
+        text("Winner", width/2, height/3);
+        image(player.spriteImage, width/2 - 250 / 2, height/2, 250, 250);
+    }
+    else{
+        for (let i = 0; i < players.length; i++) {
             players[i].update();
+            liveCount += players[i].alive;
         }
         drawSprites();
+        if (liveCount <= 1) {
+            for (let i = 0; i < players.length; i++) {
+                if (players[i].alive) {
+                    winnerExists[0] = true;
+                    winnerExists[1] = players[i];
+                }
+            }
+        }
     }
 }
