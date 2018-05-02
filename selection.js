@@ -1,6 +1,27 @@
 /// <reference path="./lib/p5.global-mode.d.ts"/>
 
-let spriteChoice = [0,0,0,0];
+let spriteChoice = [0, 1, 2, 3];
+let lockedSprites = [0, 1, 2, 3];
+
+
+/**
+ * Checks if the incoming sprite is not locked otherwise will set the next closest unlocked sprite
+ * 
+ * 
+ * @param {Number} incomingChange       Sprite which should be chosen
+ * @param {Number} playerIndex          Index of which player it wants to assign it to
+ * @param {Number} direction            The direction in which the sprite change will go
+ */
+function changeWithLock(incomingChange ,playerIndex, direction) {
+    if (!lockedSprites.includes(incomingChange)){
+        if (incomingChange < 0){ 
+            incomingChange = sprites.length - 1;
+        }
+        spriteChoice[playerIndex] = incomingChange;
+        return true;
+    }
+    changeWithLock(incomingChange + direction,playerIndex, direction);
+}
 
 /**
  * Change the sprite of the specific player
@@ -9,13 +30,22 @@ let spriteChoice = [0,0,0,0];
  * @param {Number} direction    The direction that the sprites should move
  */
 function changeSprite(playerIndex, direction) {
-    if (spriteChoice[playerIndex] < sprites.length - 1 && spriteChoice[playerIndex] >= 0){
+    let incomingChange;
+    if ((spriteChoice[playerIndex] + direction) < 0){
+        incomingChange = (sprites.length - 1);
+    }else
+    if (spriteChoice[playerIndex] <= sprites.length - 1){
         if (direction > 0 || (direction < 0 && spriteChoice[playerIndex] >= 1)) {
-            spriteChoice[playerIndex] += direction;
+            incomingChange = (spriteChoice[playerIndex] + direction) % (sprites.length - 1);
         }
-   }else{
-       spriteChoice[playerIndex] = 0;
-   }
+    }
+
+    // Check if sprite is not in use and set as allowed sprite
+    changeWithLock(incomingChange, playerIndex, direction);
+
+    // Set sprite lock
+    lockedSprites[playerIndex] = spriteChoice[playerIndex];
+    
 }
 
 /**
