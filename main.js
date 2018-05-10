@@ -10,19 +10,18 @@ let sprites = [],
     buttonSprite = [],
     stageSprite,
     stage,
-    emojiBet,
     playersGroup;
 
 function preload() {
     // Load sprites in to an array
     loadKeySprites();
     for (let i = 0; i < 18; i++){
-        sprites.push( loadImage("./sprites/Sprite ("+(i+1)+").png"));
+        sprites.push( loadImage("sprites/Sprite ("+(i+1)+").png"));
     }
-    stageSprite = loadImage("./sprites/stage.png");
-    buttonSprite.push(loadImage("./sprites/buttonRight.png"));
-    buttonSprite.push(loadImage("./sprites/buttonLeft.png"));
-    buttonReadySprite.push(loadImage("./sprites/ready.png"));
+    stageSprite = loadImage("sprites/stage.png");
+    buttonSprite.push(loadImage("sprites/buttonRight.png"));
+    buttonSprite.push(loadImage("sprites/buttonLeft.png"));
+    buttonReadySprite.push(loadImage("sprites/ready.png"));
 }
 
 function setup() {
@@ -39,8 +38,6 @@ function draw() {
     background(0);
     if (players == 0){
         selectCharacters(sprites, players);
-        printEmojiText("shutup alex", width/ 2, height / 2)
-        
     }else if (winnerExists[0]){
         player = winnerExists[1];
         fill(255);
