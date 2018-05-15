@@ -2,6 +2,7 @@
 
 let spriteChoice = [0, 1, 2, 3];
 let lockedSprites = [0, 1, 2, 3];
+let controls = [["W", "S", "A", "D"], ["I", "J", "K", "L"], [38, 40, 37, 39], [104, 101, 100, 102]];
 
 
 /**
@@ -53,10 +54,10 @@ function changeSprite(playerIndex, direction) {
  */
 function returnSetCharacters() {
     let stageRadius = height/2 - 25;
-    players.push(new Player(["W", "S", "A", "D"], sprites[spriteChoice[0]], width/2, 25));
-    players.push(new Player(["Y", "H", "G", "J"], sprites[spriteChoice[1]], width/2 + stageRadius, stageRadius));
-    players.push(new Player(["P", 186, "L", 192], sprites[spriteChoice[2]], width/2 - stageRadius, stageRadius));
-    players.push(new Player([104, 101, 100, 102], sprites[spriteChoice[3]], width/2, height - 25));
+    players.push(new Player(controls[0], sprites[spriteChoice[0]], width/2, 25));
+    players.push(new Player(controls[1], sprites[spriteChoice[1]], width/2 + stageRadius, stageRadius));
+    players.push(new Player(controls[2], sprites[spriteChoice[2]], width/2 - stageRadius, stageRadius));
+    players.push(new Player(controls[3], sprites[spriteChoice[3]], width/2, height - 25));
 }
 
 /**
@@ -71,10 +72,8 @@ function selectCharacters(sprites, players) {
 
     // Place the Selection of for the players.
     // Create of the layout should be done here.
-    let SPRITESIZE = 120;
     let AVGPOSITION = (width / 4);
     let GAP = width/100 * 10;
-    let BUTTONGAP = SPRITESIZE / 2;
     let YSPACE = height / 12;
     for (let i = 0; i < 4; i++) {
         let xPosition = i * AVGPOSITION + GAP;
@@ -93,6 +92,10 @@ function selectCharacters(sprites, players) {
 
         for (let i = 0; i < buttons.length ; i++) {
             buttons[i].update();
+            // for(char of controls[i]) {
+            //     print(i)
+                // printEmojiText(char, xPosition, height / 2);
+            // }
         }
     }
     buttonsMade = true;

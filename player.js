@@ -2,18 +2,20 @@ class Player {
 
     /**
      * 
-     * @param {array} Controls      The keys which are used to controll the player object.
+     * @param {array} Controls      The keys which are used to control the player object.
      *                              Order is [UP, DOWN, LEFT, RIGHT]
      * @param {image} sprite        The sprite of the player object
      * @param {number} spawnX       The X coordinate of where the object will be spawned
      * @param {number} spawnY       The Y coordinate of where the object will be spawned
      */
     constructor(Controls, sprite, spawnX, spawnY) {
-        let spriteSize = 50;
+        this._spriteSize = 50;
         this.spriteImage = sprite;
-        this.sprite = createSprite(spawnX, spawnY, spriteSize, spriteSize);
+        this.sprite = createSprite(spawnX, spawnY, this.spriteSize, this.spriteSize);
+        this.sprite.setCollider("circle", this.sprite.deltaX, this.sprite.deltaY, this._spriteSize / 2);
+        let player = this;
         // Custom draw to resize image.
-        this.sprite.draw = function() {image(sprite, this.deltaX, this.deltaY, spriteSize, spriteSize);};
+        this.sprite.draw = function() {image(sprite, this.deltaX, this.deltaY, player._spriteSize, player._spriteSize);};
         this.CONTROLS = {
             UP: Controls[0],
             DOWN: Controls[1],
@@ -26,7 +28,16 @@ class Player {
         this.sprite.friction = 0.01;
         playersGroup.add(this.sprite);
     }
-    
+
+    get spriteSize() {
+        return this._spriteSize;
+    }
+
+    set spriteSize(value) {
+        this._spriteSize = value;
+        this.sprite.setCollider("circle", 0, 0, this.spriteSize / 2);
+    }
+
     update() {
         if (this.alive) {
             if (!this.sprite.overlap(stage)) {

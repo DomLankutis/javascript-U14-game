@@ -9,11 +9,10 @@ class Button{
      * @param {Array} spriteSheet   Spritesheet for the buttons
      * @param {Number} imageSize    Size of the image
      * @param {function} func       The function which the button is meant to do
-     * @param {Number} flip         Wether the button should be fliped or not (Requires you to provide two sprites [Not Fliped, Fliped])
+     * @param {Number} flip         Whether the button should be flipped or not (Requires you to provide two sprites [Not Flipped, Flipped])
      */
     constructor(x, y, spriteSheet, imageSize, func, flip=false) {
-        //TODO: include arguments for the imagethingy.
-        // Shows wether button is clicked or not (0 is not clicked, 1 is clicekd)
+        // Shows whether button is clicked or not (0 is not clicked, 1 is clicked)
         this.state = 0;
         this.buttonSprite = spriteSheet;
         this.imageSize = imageSize;
@@ -29,11 +28,9 @@ class Button{
      * Update behavior of the button
      */
     update() {
-        
         image(this.buttonSprite[Number(this.flip)], this.posistion.x, this.posistion.y, this.imageSize, this.imageSize);
         if (mouseIsPressed && mouseX >= this.posistion.x && mouseX <= this.posistion.x + this.imageSize &&
-            mouseY >= this.posistion.y && mouseY <= this.posistion.y + this.imageSize){
-            
+            mouseY >= this.posistion.y && mouseY <= this.posistion.y + this.imageSize) {
             if (this.state == 0) {
                 this.func();
             }this.state = 1;
