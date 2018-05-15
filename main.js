@@ -10,7 +10,8 @@ let sprites = [],
     buttonSprite = [],
     stageSprite,
     stage,
-    playersGroup;
+    playersGroup,
+    collectables = [];
 
 function preload() {
     // Load sprites in to an array
@@ -25,11 +26,29 @@ function preload() {
 }
 
 function setup() {
-    createCanvas(1920, 960);
+    createCanvas(1800, 900);
     stage = createSprite(width/2, height/2);
-    stage.setCollider("circle", width/2, height/2, height /2);
+    stage.setCollider("circle", 0, 0, height /2);
     stage.draw = function() {image(stageSprite, this.deltaX/2, this.deltaY/2, height*1.05, height*1.05);};
     playersGroup = new Group();
+    let radius = height / 3;
+    for (let i = 0; i <= random(2, 10); i++) {
+        let choice = Math.round(random());
+        let x = 0;
+        let y = 0;
+        do {
+            x = Math.round(random(0, width));
+            y = Math.round(random(0, height));
+        } while ((Math.pow(x - width / 2, 2) + (Math.pow(y - height / 2, 2)) > (radius * radius)));
+        // x += width / 2.5;
+        // y += height / 4;
+        if (choice === 0) {
+            collectables.push(createGoodPowerUp(x, y));
+        } else {
+            collectables.push(createBadPowerUp(x, y));
+        }
+    }
+
 }
 
 function draw() {
@@ -49,6 +68,13 @@ function draw() {
     else{
         for (let i = 0; i < players.length; i++) {
             players[i].update();
+            for (let j = 0; j < collectables.length; j++) {
+                if (players[i].sprite.overlap(collectables[j].sprite)) {
+                    collectables[j].applyToPlayer(players[i]);
+                    collectables[j].sprite.remove();
+                    collectables.splice(j, 1);
+                }
+            }
             liveCount += players[i].alive;
         }
         drawSprites();
