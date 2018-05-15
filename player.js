@@ -11,11 +11,16 @@ class Player {
     constructor(Controls, sprite, spawnX, spawnY) {
         this._spriteSize = 50;
         this.spriteImage = sprite;
+        this.tint = () => {tint(255)};
         this.sprite = createSprite(spawnX, spawnY, this.spriteSize, this.spriteSize);
         this.sprite.setCollider("circle", this.sprite.deltaX, this.sprite.deltaY, this._spriteSize / 2);
         let player = this;
         // Custom draw to resize image.
-        this.sprite.draw = function() {image(sprite, this.deltaX, this.deltaY, player._spriteSize, player._spriteSize);};
+        this.sprite.draw = function() {
+            image(sprite, this.deltaX, this.deltaY, player._spriteSize, player._spriteSize);
+            player.tint();
+            image(sprite, this.deltaX, this.deltaY, player._spriteSize, player._spriteSize);
+        };
         this.CONTROLS = {
             UP: Controls[0],
             DOWN: Controls[1],
