@@ -9,44 +9,46 @@ class Collectable {
     }
 }
 
-function createGoodPowerUp(x, y) {
-    // Aspect ratio is 18:9.
-    return new Collectable(x, y, (player) => {
-        // 1 - mass
-        // 2 - speed
-        // 3 - friction
-        let choice = Math.round(random(0.5, 3.49));
-        if (choice === 1) {
-            let massIncrease = random(0, 1);
-            player.sprite.mass += massIncrease;
-            player.spriteSize += massIncrease * 20;
+function indicate(player, tintFunc, timeoutTime) {
+    player.tint = () => {tintFunc()};
+    let blink = setInterval(() => {
+        if (player.tint == "() => {tint(255)}") {
+            player.tint = () => {tintFunc()}
+        }else {
+            player.tint = () => {tint(255)};
         }
-        else if (choice === 2) {
-            player.SPEED += random(0, 0.1);
-        }
-        else {
-            player.sprite.friction += random(0, 0.009);
-        }
-    } )
+    }, 200);
+
+    setTimeout(() => {
+        player.tint = () => {tint(255)};
+        clearInterval(blink);
+        }, timeoutTime * 1000);
 }
 
-function createBadPowerUp(x, y) {
-    // Aspect ratio is 18:9.
+function createPowerUp(x, y, state) {
+    let actOnVariable;
+    if (state.toLowerCase() === "good") {
+        actOnVariable = (a, b) => {a += b};
+    } else {
+        actOnVariable = (a, b) => {a -= b};
+    }
     return new Collectable(x, y, (player) => {
-        // 1 - mass
-        // 2 - speed
-        // 3 - friction
         let choice = Math.round(random(0.5, 3.49));
+        // 1 - mass
         if (choice === 1) {
             let massIncrease = random(0, 1);
-            player.sprite.mass -= massIncrease;
-            player.spriteSize -= massIncrease * 20;
+            actOnVariable(player.sprite.mass, massIncrease);
+            actOnVariable(player.spriteSize, massIncrease * 15);
         }
+        // 2 - speed
         else if (choice === 2) {
-            player.SPEED -= random(0, 0.1);
+            indicate(player, () => {tint(0, 0, 255, 200)}, 1.5);
+            actOnVariable(player.SPEED, random(0.001, 0.1))
         }
+        // 3 - friction
         else {
-            player.sprite.friction -= random(0, 0.009);
+            indicate(player, () => {tint(0, 193, 255, 200)}, 1.5);
+            actOnVariable(player.sprite.friction, random(0.001, 0.025))
         }
     } )
 }

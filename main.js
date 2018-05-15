@@ -11,7 +11,7 @@ let sprites = [],
     stageSprite,
     stage,
     playersGroup,
-    collectables = [];
+    collectibles = [];
 
 function preload() {
     // Load sprites in to an array
@@ -41,9 +41,9 @@ function setup() {
             y = Math.round(random(0, height));
         } while ((Math.pow(x - width / 2, 2) + (Math.pow(y - height / 2, 2)) > (radius * radius)));
         if (choice === 0) {
-            collectables.push(createGoodPowerUp(x, y));
+            collectibles.push(createPowerUp(x, y, "good"));
         } else {
-            collectables.push(createBadPowerUp(x, y));
+            collectibles.push(createPowerUp(x, y, "bad"));
         }
     }
 
@@ -66,11 +66,11 @@ function draw() {
     else{
         for (let i = 0; i < players.length; i++) {
             players[i].update();
-            for (let j = 0; j < collectables.length; j++) {
-                if (players[i].sprite.overlap(collectables[j].sprite)) {
-                    collectables[j].applyToPlayer(players[i]);
-                    collectables[j].sprite.remove();
-                    collectables.splice(j, 1);
+            for (let j = 0; j < collectibles.length; j++) {
+                if (players[i].sprite.overlap(collectibles[j].sprite)) {
+                    collectibles[j].applyToPlayer(players[i]);
+                    collectibles[j].sprite.remove();
+                    collectibles.splice(j, 1);
                 }
             }
             liveCount += players[i].alive;
