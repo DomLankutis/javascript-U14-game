@@ -40,8 +40,6 @@ function setup() {
             x = Math.round(random(0, width));
             y = Math.round(random(0, height));
         } while ((Math.pow(x - width / 2, 2) + (Math.pow(y - height / 2, 2)) > (radius * radius)));
-        // x += width / 2.5;
-        // y += height / 4;
         if (choice === 0) {
             collectables.push(createGoodPowerUp(x, y));
         } else {

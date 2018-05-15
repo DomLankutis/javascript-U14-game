@@ -92,10 +92,6 @@ function selectCharacters(sprites, players) {
 
         for (let i = 0; i < buttons.length ; i++) {
             buttons[i].update();
-            // for(char of controls[i]) {
-            //     print(i)
-                // printEmojiText(char, xPosition, height / 2);
-            // }
         }
     }
     buttonsMade = true;

@@ -19,7 +19,7 @@ function createGoodPowerUp(x, y) {
         if (choice === 1) {
             let massIncrease = random(0, 1);
             player.sprite.mass += massIncrease;
-            player.spriteSize += massIncrease * 10;
+            player.spriteSize += massIncrease * 20;
         }
         else if (choice === 2) {
             player.SPEED += random(0, 0.1);
@@ -40,7 +40,7 @@ function createBadPowerUp(x, y) {
         if (choice === 1) {
             let massIncrease = random(0, 1);
             player.sprite.mass -= massIncrease;
-            player.spriteSize -= massIncrease * 10;
+            player.spriteSize -= massIncrease * 20;
         }
         else if (choice === 2) {
             player.SPEED -= random(0, 0.1);
