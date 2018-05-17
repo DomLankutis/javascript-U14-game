@@ -28,27 +28,27 @@ function indicate(player, tintFunc, timeoutTime) {
 function createPowerUp(x, y, state) {
     let actOnVariable;
     if (state.toLowerCase() === "good") {
-        actOnVariable = (a, b) => {a += b};
+        actOnVariable = (a, b) => {return a + b};
     } else {
-        actOnVariable = (a, b) => {a -= b};
+        actOnVariable = (a, b) => {return a - b};
     }
     return new Collectable(x, y, (player) => {
         let choice = Math.round(random(0.5, 3.49));
         // 1 - mass
         if (choice === 1) {
-            let massIncrease = random(0, 1);
-            actOnVariable(player.sprite.mass, massIncrease);
-            actOnVariable(player.spriteSize, massIncrease * 15);
+            let massIncrease = random(0.2, 1);
+            player.sprite.mass = actOnVariable(player.sprite.mass, massIncrease);
+            player.spriteSize = actOnVariable(player.spriteSize, massIncrease * 15);
         }
         // 2 - speed
         else if (choice === 2) {
             indicate(player, () => {tint(0, 0, 255, 200)}, 1.5);
-            actOnVariable(player.SPEED, random(0.001, 0.1))
+            player.SPEED = actOnVariable(player.SPEED, random(0.001, 0.1))
         }
         // 3 - friction
         else {
             indicate(player, () => {tint(0, 193, 255, 200)}, 1.5);
-            actOnVariable(player.sprite.friction, random(0.001, 0.025))
+            player.sprite.friction = actOnVariable(player.sprite.friction, random(0.001, 0.025))
         }
     } )
 }

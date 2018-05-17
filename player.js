@@ -39,6 +39,7 @@ class Player {
     }
 
     set spriteSize(value) {
+        console.log(value);
         this._spriteSize = value;
         this.sprite.setCollider("circle", 0, 0, this.spriteSize / 2);
     }
