@@ -77,6 +77,9 @@ function draw() {
             liveCount += players[i].alive;
         }
         drawSprites();
+        for (let collectible of collectibles) {
+            collectible.image();
+        }
         if (liveCount <= 1) {
             for (let i = 0; i < players.length; i++) {
                 if (players[i].alive) {

@@ -2,7 +2,11 @@
 
 let spriteChoice = [0, 1, 2, 3];
 let lockedSprites = [0, 1, 2, 3];
-let controls = [["W", "S", "A", "D"], ["I", "J", "K", "L"], [38, 40, 37, 39], [104, 101, 100, 102]];
+let controls = [["W", "S", "A", "D"], ["I", "K", "J", "L"], ["UP", "DOWN", "LEFT", "RIGHT"], ["8NUMPAD", "5NUMPAD", "4NUMPAD", "6NUMPAD"]];
+
+function findKeyByValue(obj, val) {
+    return Object.keys(obj).find(key => obj[key] === val);
+}
 
 
 /**
@@ -73,15 +77,31 @@ function selectCharacters(sprites, players) {
     // Place the Selection of for the players.
     // Create of the layout should be done here.
     let AVGPOSITION = (width / 4);
-    let GAP = width/100 * 10;
+    let GAP = width/100 * 4;
     let YSPACE = height / 12;
+    let textSize = 35;
     for (let i = 0; i < 4; i++) {
-        let xPosition = i * AVGPOSITION + GAP;
+        let xPosition = i * AVGPOSITION + GAP + (width / 100 * 5);
         image(sprites[spriteChoice[i]], xPosition, YSPACE);
+        if (i !== 3) {
+            textSize = 35;
+            let lowerKeySection  = controls[i][2] + " " + controls[i][1] + " " + controls[i][3];
+            printEmojiText(controls[i][0], xPosition + (GAP / 2), height / 2 - 50, textSize);
+            printEmojiText(lowerKeySection, xPosition + (GAP / 2) - (lowerKeySection.length  * textSize / 2.5) , height / 2, textSize);
+        }else {
+            textSize = 50;
+            let lowerKeySection  = controls[i][2][0] + " " + controls[i][1][0] + " " + controls[i][3][0];
+            printEmojiText(controls[i][0][0], xPosition + (GAP / 2), height / 2 - 50, textSize);
+            printEmojiText(lowerKeySection, xPosition + (GAP / 2) - (lowerKeySection.length  * textSize / 2.5), height / 2, textSize);
+        }
+
+
+
+
 
         if (!buttonsMade) {
             let sprites = buttonSprite;
-            buttons.push(new Button(xPosition + GAP, YSPACE + 30, sprites, 50, () => {changeSprite(i, 1);}));
+            buttons.push(new Button(xPosition + GAP * 2, YSPACE + 30, sprites, 50, () => {changeSprite(i, 1);}));
             buttons.push(new Button(xPosition - GAP, YSPACE + 30, sprites, 50, () => {changeSprite(i, -1);}, true));
         }
         
