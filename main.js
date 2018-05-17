@@ -26,7 +26,8 @@ function preload() {
 }
 
 function setup() {
-    createCanvas(1800, 900);
+    // 95% of the browser screen will be used for the canvas
+    createCanvas($(document).width() * 0.95, $(document).height() * 0.95);
     stage = createSprite(width/2, height/2);
     stage.setCollider("circle", 0, 0, height /2);
     stage.draw = function() {image(stageSprite, this.deltaX/2, this.deltaY/2, height*1.05, height*1.05);};
