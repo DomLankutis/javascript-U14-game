@@ -1,6 +1,8 @@
 class Collectable {
-    constructor(posX, posY, func) {
+    constructor(posX, posY, func, char) {
         this.sprite = createSprite(posX, posY, 20, 20);
+        this.sprite.shapeColor = color(0,0,0,0);
+        this.image = () => {printEmojiText(char, posX, posY, 20)};
         this.func = func;
     }
 
@@ -27,28 +29,42 @@ function indicate(player, tintFunc, timeoutTime) {
 
 function createPowerUp(x, y, state) {
     let actOnVariable;
+    let powerUpFunction;
+    let char;
     if (state.toLowerCase() === "good") {
         actOnVariable = (a, b) => {return a + b};
     } else {
         actOnVariable = (a, b) => {return a - b};
     }
-    return new Collectable(x, y, (player) => {
-        let choice = Math.round(random(0.5, 3.49));
-        // 1 - mass
-        if (choice === 1) {
-            let massIncrease = random(0.2, 1);
+    let choice = Math.round(random(0.5, 3.49));
+    // 1 - mass
+    if (choice === 1) {
+        char = "m";
+        let massIncrease = random(0.2, 1);
+        powerUpFunction = (player) => {
             player.sprite.mass = actOnVariable(player.sprite.mass, massIncrease);
             player.spriteSize = actOnVariable(player.spriteSize, massIncrease * 15);
         }
-        // 2 - speed
-        else if (choice === 2) {
-            indicate(player, () => {tint(0, 0, 255, 200)}, 1.5);
+    }
+    // 2 - speed
+    else if (choice === 2) {
+        char = "s";
+        powerUpFunction = (player) => {
+            indicate(player, () => {
+                tint(0, 0, 255, 200)
+            }, 1.5);
             player.SPEED = actOnVariable(player.SPEED, random(0.001, 0.1))
         }
-        // 3 - friction
-        else {
-            indicate(player, () => {tint(0, 193, 255, 200)}, 1.5);
+    }
+    // 3 - friction
+    else {
+        char = "f";
+        powerUpFunction = (player) => {
+            indicate(player, () => {
+                tint(0, 193, 255, 200)
+            }, 1.5);
             player.sprite.friction = actOnVariable(player.sprite.friction, random(0.001, 0.025))
         }
-    } )
+    }
+    return new Collectable(x, y, powerUpFunction, char);
 }
